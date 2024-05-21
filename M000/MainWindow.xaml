@@ -1,0 +1,42 @@
+﻿<Window x:Class="M000.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:local="clr-namespace:M000"
+        Title="Personendialog" Height="450" Width="300"
+		Topmost="True"
+		WindowStartupLocation="CenterScreen"
+		ResizeMode="NoResize"
+		FontSize="14"
+		SizeToContent="Height">
+	<Window.Background>
+		<LinearGradientBrush>
+			<GradientStop Color="Aqua" Offset="0"/>
+			<GradientStop Color="LightGreen" Offset="0.5"/>
+			<GradientStop Color="Orange" Offset="1"/>
+		</LinearGradientBrush>
+	</Window.Background>
+	
+    <StackPanel Margin="5, 0, 5, 5">
+		<TextBlock Text="Vorname: "/>
+		<TextBox/>
+		<TextBlock Text="Nachname: "/>
+		<TextBox/>
+		<TextBlock Text="Geburtsdatum: "/>
+		<DatePicker/>
+		<TextBlock Text="Verheiratet: "/>
+		<CheckBox/>
+		<TextBlock Text="Lieblingsfarbe: "/>
+		<ComboBox>
+			<ComboBoxItem Content="Rot" Foreground="Red"/>
+			<ComboBoxItem Content="Grün" Foreground="Green"/>
+			<ComboBoxItem Content="Blau" Foreground="Blue"/>
+			<ComboBoxItem Content="Gelb" Foreground="Yellow"/>
+		</ComboBox>
+		<TextBlock Text="Geschlecht:"/>
+		<RadioButton Content="M" GroupName="Gender"/>
+		<RadioButton Content="W" GroupName="Gender"/>
+		<RadioButton Content="D" GroupName="Gender"/>
+		<Button Content="OK"/>
+		<Button Content="Abbrechen"/>
+	</StackPanel>
+</Window>
