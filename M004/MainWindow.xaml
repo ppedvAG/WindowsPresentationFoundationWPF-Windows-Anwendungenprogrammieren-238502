@@ -1,0 +1,95 @@
+﻿<Window x:Class="M004.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:local="clr-namespace:M004"
+        Title="{Binding ElementName=TB, Path=Text}" Height="450" Width="300"
+		WindowStartupLocation="CenterScreen"
+		Topmost="True"
+		FontSize="20"
+		Background="{Binding ElementName=BackgroundCB, Path=SelectedValue, TargetNullValue=White}">
+	<Window.Resources>
+		<!--Resources-->
+		<!--Können auf Window-Ebene abgelegt werden, und per Key im XAML verwendet werden-->
+		<BooleanToVisibilityConverter x:Key="BV"/>
+		<local:DoubleToBrushConverter x:Key="DB"/>
+	</Window.Resources>
+    <StackPanel>
+		<!--(Property-)Binding-->
+		<!--Verbinden von zwei UI-Komponenten-->
+		<!--Wenn sich der Wert der einen Komponente ändert, ändert sich der Wert auch bei der anderen Komponente-->
+		<!--WICHTIG: Bindings müssen immer am Ziel definiert werden-->
+
+		<!--Beispiel: Slider an TextBlock binden-->
+		
+		<!--Binding Mode-->
+		<!--Standard: TwoWay-->
+		<!--OneWay, OneWayToSource-->
+		
+		<!--UpdateSourceTrigger-->
+		<!--Standard: Zufällig, kommt auf Komponente an-->
+		<!--LostFocus, PropertyChanged-->
+		<!--Explicit: Binding wird über Backend Code gefeuert-->
+		
+		<!--StringFormat-->
+		<!--Passt den Text vor dem Binding an-->
+		<!--Mit {0} kann der Wert aus dem Binding genommen werden-->
+		<Slider Minimum="0" Maximum="100" Value="0"
+				Name="TextSlider"/>
+		<TextBox Name="TB">
+			<TextBox.Text>
+				<Binding ElementName="TextSlider" Path="Value"
+						 UpdateSourceTrigger="Explicit"
+						 StringFormat="Zahl: {0}"/>
+			</TextBox.Text>
+		</TextBox>
+		<!--Aufgabenstellung: Text von der TextBox an den Slider senden per Explicit-Binding-->
+		<Button Content="Submit" Click="Button_Click"/>
+		
+		<!--Kurzform per MarkupExtension-->
+		<TextBox Text="{Binding ElementName=TextSlider, Path=Value, UpdateSourceTrigger=Explicit, StringFormat='Zahl: {0}'}"/>
+		
+		<!--Converter-->
+		<!--Eine Komponente, welche beim Binding dazwischengehängt werden kann-->
+		<!--Wert des Bindings wird beim "senden" übersetzt-->
+		<!--Wird in C# geschrieben-->
+		
+		<!--Aufgabenstellung: CheckBox, welche einen Button sichtbar/unsichtbar macht-->
+		<CheckBox Content="Button zeigen" Name="CB"/>
+		<Button Content="Hallo!" Visibility="{Binding ElementName=CB, Path=IsChecked, Converter={StaticResource BV}}"/>
+		<!--Siehe Window.Resources-->
+			
+		<!--Aufgabenstellung: Rechteck mit Slider verbinden-->
+		<Slider Minimum="0" Maximum="255" IsSnapToTickEnabled="True" TickFrequency="1" Name="ColorSlider"/>
+		<Rectangle Fill="{Binding ElementName=ColorSlider, Path=Value, Converter={StaticResource DB}}" Width="30" Height="30"/>
+		<!--Eigener Converter für Double -> Brush-->
+		<!--Siehe DoubleToBrushConverter.cs-->
+	
+		<!--Aufgabenstellung: Vier Slider zu Margin übersetzen-->
+		<Slider Minimum="0" Maximum="100" Name="LSlider"/>
+		<Slider Minimum="0" Maximum="100" Name="TSlider"/>
+		<Slider Minimum="0" Maximum="100" Name="RSlider"/>
+		<Slider Minimum="0" Maximum="100" Name="BSlider"/>
+		<Button Content="MarginTest">
+			<Button.Margin>
+				<MultiBinding>
+					<Binding ElementName="LSlider" Path="Value"/>
+					<Binding ElementName="TSlider" Path="Value"/>
+					<Binding ElementName="RSlider" Path="Value"/>
+					<Binding ElementName="BSlider" Path="Value"/>
+
+					<MultiBinding.Converter>
+						<local:FourValueToMarginConverter/>
+					</MultiBinding.Converter>
+				</MultiBinding>
+			</Button.Margin>
+		</Button>
+		<Separator/>
+
+		<!--Aufgabenstellung: ComboBox, um den Hintergrund des Fensters zu bestimmen-->
+		<ComboBox Name="BackgroundCB" SelectedValuePath="Content">
+			<ComboBoxItem Content="Aqua"/>
+			<ComboBoxItem Content="Orange"/>
+			<ComboBoxItem Content="LightGreen"/>
+		</ComboBox>
+	</StackPanel>
+</Window>
