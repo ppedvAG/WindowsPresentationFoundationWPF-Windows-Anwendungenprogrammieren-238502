@@ -1,0 +1,101 @@
+﻿<Window x:Class="M007.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+		xmlns:sys="clr-namespace:System;assembly=System.Runtime"
+        xmlns:local="clr-namespace:M007"
+        Title="MainWindow" Height="450" Width="300"
+		DataContext="{Binding RelativeSource={RelativeSource Self}}"
+		WindowStartupLocation="CenterScreen"
+		Topmost="True">
+	<Window.Resources>
+		<ControlTemplate TargetType="Button" x:Key="BtnTemplate">
+			<Border BorderBrush="Aqua" BorderThickness="3"
+					Background="{TemplateBinding Background}">
+				<!--TemplateBinding-->
+				<!--Nimmt gesetzte Eigenschaften von der Komponente und fügt diese im Template ein-->
+				<!--z.B. Content von Button in den TextBlock übertragen-->
+				<TextBlock Text="{TemplateBinding Content}"
+						   HorizontalAlignment="Center"/>
+			</Border>
+		</ControlTemplate>
+
+		<!--Globales Template um alle Listenkomponenten anzupassen-->
+		<!--WICHTIG: DataType hier mit x:Type angeben-->
+		<DataTemplate DataType="{x:Type local:Person}">
+			<StackPanel Orientation="Horizontal">
+				<TextBlock Text="{Binding Vorname, StringFormat='\{0} '}" VerticalAlignment="Center"/>
+				<TextBlock Text="{Binding Nachname, StringFormat='\{0} '}" VerticalAlignment="Center"/>
+				<DatePicker SelectedDate="{Binding GebDat}"/>
+				<Button Click="Button_Click" Content="Person löschen"/>
+			</StackPanel>
+		</DataTemplate>
+	</Window.Resources>
+	<StackPanel>
+		<!--Templates-->
+		<!--Komponenten beliebig verändern-->
+		<!--Zwei verschiedene Typen: ControlTemplate, DataTemplate-->
+		<Button Content="Test" Background="Orange">
+			<Button.Template>
+				<!--WICHTIG: TargetType angeben-->
+				<ControlTemplate TargetType="Button">
+					<Border BorderBrush="Aqua" BorderThickness="3"
+							Background="{TemplateBinding Background}">
+						<!--TemplateBinding-->
+						<!--Nimmt gesetzte Eigenschaften von der Komponente und fügt diese im Template ein-->
+						<!--z.B. Content von Button in den TextBlock übertragen-->
+						<TextBlock Text="{TemplateBinding Content}"
+								   HorizontalAlignment="Center"/>
+					</Border>
+				</ControlTemplate>
+			</Button.Template>
+		</Button>
+
+		<!--Template als Resource einbinden-->
+		<Button Template="{StaticResource BtnTemplate}"
+				Background="LightGreen"
+				Content="Hallo"/>
+		<Button Template="{StaticResource BtnTemplate}"
+				Background="Violet"
+				Content="Welt"/>
+
+		<!--DataTemplate-->
+		<!--Änderung der Darstellung von Daten innerhalb einer Listenkomponente-->
+		<ListView ItemsSource="{Binding Personen}"/>
+		<ListBox ItemsSource="{Binding Personen}">
+			<ListBox.ItemTemplate>
+				<!--WICHTIG: Hier DataType angeben (wie bei Style und Template)-->
+				<DataTemplate DataType="local:Person">
+					<StackPanel Orientation="Horizontal">
+						<TextBlock Text="{Binding Vorname, StringFormat='\{0} '}" VerticalAlignment="Center"/>
+						<TextBlock Text="{Binding Nachname, StringFormat='\{0} '}" VerticalAlignment="Center"/>
+						<DatePicker SelectedDate="{Binding GebDat}"/>
+						<Button Click="Button_Click" Content="Person löschen"/>
+					</StackPanel>
+				</DataTemplate>
+			</ListBox.ItemTemplate>
+		</ListBox>
+		
+		<!--ItemsPanelTemplate-->
+		<!--Container von Listenkomponenten anpassen-->
+		<!--Standard: StackPanel-->
+		<ListBox ItemsSource="{Binding Zahlen}">
+			<ListBox.ItemContainerStyle>
+				<Style TargetType="ListBoxItem">
+					<Setter Property="HorizontalContentAlignment" Value="Center"/>
+				</Style>
+			</ListBox.ItemContainerStyle>
+			
+			<ListBox.ItemTemplate>
+				<DataTemplate DataType="sys:Int32">
+					<TextBlock Text="{Binding}"/>
+				</DataTemplate>
+			</ListBox.ItemTemplate>
+				
+			<ListBox.ItemsPanel>
+				<ItemsPanelTemplate>
+					<UniformGrid Columns="10"/>
+				</ItemsPanelTemplate>
+			</ListBox.ItemsPanel>
+		</ListBox>
+	</StackPanel>
+</Window>
