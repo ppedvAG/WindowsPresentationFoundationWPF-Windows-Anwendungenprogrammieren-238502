@@ -7,7 +7,7 @@
 		WindowStartupLocation="CenterScreen"
 		Topmost="True"
 		FontSize="20">
-    <StackPanel>
+	<StackPanel>
 		<!--DataBinding-->
 		<!--Verbindung zwischen einer UI Komponente und einer Backend Variable-->
 		

@@ -3,10 +3,14 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:local="clr-namespace:M000"
         Title="Personendialog" Height="250" Width="300"
+		DataContext="{Binding RelativeSource={RelativeSource Self}}"
 		Topmost="True"
 		WindowStartupLocation="CenterScreen"
 		FontSize="14"
 		SizeToContent="Height">
+	<!--<Window.DataContext>
+		<local:Person/>
+	</Window.DataContext>-->
 	<Window.Background>
 		<LinearGradientBrush>
 			<GradientStop Color="Aqua" Offset="0"/>
@@ -14,6 +18,10 @@
 			<GradientStop Color="Orange" Offset="1"/>
 		</LinearGradientBrush>
 	</Window.Background>
+	<Window.Resources>
+		<local:GenderConverter x:Key="GC"/>
+		<local:DebugConverter x:Key="DC"/>
+	</Window.Resources>
 	
 	<!--<Grid Margin="5, 0, 5, 5">
 		<Grid.ColumnDefinitions>
@@ -58,23 +66,24 @@
 	<StackPanel Margin="5, 0, 5, 5">
 		<UniformGrid Columns="2" Margin="0, 5, 0, 0">
 			<TextBlock Text="Vorname: "/>
-			<TextBox Grid.Column="1"/>
+			<TextBox Text="{Binding person.Vorname}"/>
 		</UniformGrid>
 		<UniformGrid Columns="2" Margin="0, 5, 0, 0">
 			<TextBlock Text="Nachname: "/>
-			<TextBox/>
+			<TextBox Text="{Binding person.Nachname}"/>
 		</UniformGrid>
 		<UniformGrid Columns="2" Margin="0, 5, 0, 0">
 			<TextBlock Text="Geburtsdatum: "/>
-			<DatePicker/>
+			<DatePicker SelectedDate="{Binding person.GebDat}"/>
 		</UniformGrid>
 		<UniformGrid Columns="2" Margin="0, 5, 0, 0">
 			<TextBlock Text="Verheiratet: "/>
-			<CheckBox/>
+			<CheckBox IsChecked="{Binding person.Verheiratet}"/>
 		</UniformGrid>
 		<UniformGrid Columns="2" Margin="0, 5, 0, 0">
 			<TextBlock Text="Lieblingsfarbe: "/>
-			<ComboBox>
+			<ComboBox SelectedValue="{Binding person.Lieblingsfarbe}"
+					  SelectedValuePath="Foreground.Color">
 				<ComboBoxItem Content="Rot" Foreground="Red"/>
 				<ComboBoxItem Content="Grün" Foreground="Green"/>
 				<ComboBoxItem Content="Blau" Foreground="Blue"/>
@@ -84,14 +93,15 @@
 		<UniformGrid Columns="2" Margin="0, 5, 0, 0">
 			<TextBlock Text="Geschlecht:"/>
 			<StackPanel Orientation="Horizontal">
-				<RadioButton Content="M" GroupName="Gender"/>
-				<RadioButton Content="W" GroupName="Gender"/>
-				<RadioButton Content="D" GroupName="Gender"/>
+				<RadioButton Content="M" GroupName="Gender" IsChecked="{Binding person.Geschlecht, Converter={StaticResource GC}, ConverterParameter={x:Static local:Geschlecht.M}}"/>
+				<RadioButton Content="W" GroupName="Gender" IsChecked="{Binding person.Geschlecht, Converter={StaticResource GC}, ConverterParameter={x:Static local:Geschlecht.W}}"/>
+				<RadioButton Content="D" GroupName="Gender" IsChecked="{Binding person.Geschlecht, Converter={StaticResource GC}, ConverterParameter={x:Static local:Geschlecht.D}}"/>
 			</StackPanel>
 		</UniformGrid>
 		<UniformGrid Columns="2">
-			<Button Content="OK" Margin="0, 5, 2.5, 0"/>
-			<Button Content="Abbrechen" Grid.Row="6" Grid.Column="1" Margin="2.5, 5, 0, 0"/>
+			<Button Content="Abbrechen" Margin="0, 5, 2.5, 0"/>
+			<Button Content="OK" Grid.Row="6" Grid.Column="1" Margin="2.5, 5, 0, 0"
+					Click="PersonAnzeigen"/>
 		</UniformGrid>
 	</StackPanel>
 </Window>
