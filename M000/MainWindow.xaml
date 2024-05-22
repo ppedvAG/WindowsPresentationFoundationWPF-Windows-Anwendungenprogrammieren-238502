@@ -19,8 +19,7 @@
 		</LinearGradientBrush>
 	</Window.Background>
 	<Window.Resources>
-		<local:GenderConverter x:Key="GC"/>
-		<local:DebugConverter x:Key="DC"/>
+		<local:GenderConverter x:Key="GC"/> 
 	</Window.Resources>
 	
 	<!--<Grid Margin="5, 0, 5, 5">
