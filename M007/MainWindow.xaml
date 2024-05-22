@@ -3,9 +3,10 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 		xmlns:sys="clr-namespace:System;assembly=System.Runtime"
         xmlns:local="clr-namespace:M007"
-        Title="MainWindow" Height="450" Width="300"
+        Title="MainWindow" Height="450" Width="350"
 		DataContext="{Binding RelativeSource={RelativeSource Self}}"
 		WindowStartupLocation="CenterScreen"
+		SizeToContent="Height"
 		Topmost="True">
 	<Window.Resources>
 		<ControlTemplate TargetType="Button" x:Key="BtnTemplate">
@@ -29,6 +30,8 @@
 				<Button Click="Button_Click" Content="Person löschen"/>
 			</StackPanel>
 		</DataTemplate>
+		
+		<local:NumberToColorConverter x:Key="NC"/>
 	</Window.Resources>
 	<StackPanel>
 		<!--Templates-->
@@ -82,12 +85,13 @@
 			<ListBox.ItemContainerStyle>
 				<Style TargetType="ListBoxItem">
 					<Setter Property="HorizontalContentAlignment" Value="Center"/>
+					<Setter Property="Background" Value="{Binding ., Converter={StaticResource NC}}"/>
 				</Style>
 			</ListBox.ItemContainerStyle>
 			
 			<ListBox.ItemTemplate>
 				<DataTemplate DataType="sys:Int32">
-					<TextBlock Text="{Binding}"/>
+					<TextBlock Text="{Binding}" Foreground="White"/> <!--Foreground="{Binding ., Converter={StaticResource NC}}"/>-->
 				</DataTemplate>
 			</ListBox.ItemTemplate>
 				
