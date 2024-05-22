@@ -1,0 +1,101 @@
+﻿<Window x:Class="M000.ColorPicker"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:local="clr-namespace:M000"
+		WindowStartupLocation="CenterScreen"
+		Topmost="True"
+        Title="ColorPicker" 
+		Height="450"
+		Width="300"
+		SizeToContent="Height"
+		ResizeMode="NoResize">
+    <StackPanel Margin="5, 0, 5, 10">
+		<DockPanel>
+			<TextBlock DockPanel.Dock="Left"
+					   Width="20"
+					   TextAlignment="Center"
+					   Text="R:"
+					   Foreground="Red"/>
+			<TextBox DockPanel.Dock="Right"
+					 Width="30"
+					 TextAlignment="Center"
+					 Text="{Binding ElementName=RSlider, Path=Value, UpdateSourceTrigger=PropertyChanged}"/>
+			<Slider Name="RSlider"
+					Minimum="0"
+					Maximum="255"
+					IsSnapToTickEnabled="True"
+					TickFrequency="1"
+					Margin="0, 0, 5, 0"/>
+		</DockPanel>
+		<DockPanel Margin="0, 5, 0, 0">
+			<TextBlock DockPanel.Dock="Left"
+					   Width="20"
+					   TextAlignment="Center"
+					   Text="G:"
+					   Foreground="Green"/>
+			<TextBox DockPanel.Dock="Right"
+					 Width="30"
+					 TextAlignment="Center"
+					 Text="{Binding ElementName=GSlider, Path=Value, UpdateSourceTrigger=PropertyChanged}"/>
+			<Slider Name="GSlider"
+					Minimum="0"
+					Maximum="255"
+					IsSnapToTickEnabled="True"
+					TickFrequency="1"
+					Margin="0, 0, 5, 0"/>
+		</DockPanel>
+		<DockPanel Margin="0, 5, 0, 0">
+			<TextBlock DockPanel.Dock="Left"
+					   Width="20"
+					   TextAlignment="Center"
+					   Text="B:"
+					   Foreground="Blue"/>
+			<TextBox DockPanel.Dock="Right"
+					 Width="30"
+					 TextAlignment="Center"
+					 Text="{Binding ElementName=BSlider, Path=Value, UpdateSourceTrigger=PropertyChanged}"/>
+			<Slider Name="BSlider"
+					Minimum="0"
+					Maximum="255"
+					IsSnapToTickEnabled="True"
+					TickFrequency="1"
+					Margin="0, 0, 5, 0"/>
+		</DockPanel>
+		<DockPanel Margin="0, 5, 0, 0">
+			<TextBlock DockPanel.Dock="Left"
+					   Width="20"
+					   TextAlignment="Center"
+					   Text="A:"/>
+			<TextBox DockPanel.Dock="Right"
+					 Width="30"
+					 TextAlignment="Center"
+					 Text="{Binding ElementName=ASlider, Path=Value, UpdateSourceTrigger=PropertyChanged}"/>
+			<Slider Name="ASlider"
+					Minimum="0"
+					Maximum="255"
+					Value="255"
+					IsSnapToTickEnabled="True"
+					TickFrequency="1"
+					Margin="0, 0, 5, 0"/>
+		</DockPanel>
+		<TextBlock Margin="0, 5"
+				   Text="{Binding ElementName=ColorRect, Path=Fill, StringFormat='Picked Color: {0}'}"
+				   TextAlignment="Center"/>
+		<Rectangle Stroke="Black"
+				   StrokeThickness="2"
+				   Width="100" Height="100"
+				   Name="ColorRect">
+			<Rectangle.Fill>
+				<MultiBinding>
+					<Binding ElementName="RSlider" Path="Value"/>
+					<Binding ElementName="GSlider" Path="Value"/>
+					<Binding ElementName="BSlider" Path="Value"/>
+					<Binding ElementName="ASlider" Path="Value"/>
+					<MultiBinding.Converter>
+						<local:FourValueToBrushConverter/>
+					</MultiBinding.Converter>
+				</MultiBinding>
+			</Rectangle.Fill>
+		</Rectangle>
+	</StackPanel>
+</Window>

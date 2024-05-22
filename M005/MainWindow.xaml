@@ -1,0 +1,45 @@
+﻿<Window x:Class="M005.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:local="clr-namespace:M005"
+        Title="MainWindow" Height="450" Width="300"
+		DataContext="{Binding RelativeSource={RelativeSource Self}}"
+		WindowStartupLocation="CenterScreen"
+		Topmost="True"
+		FontSize="20">
+    <StackPanel>
+		<!--DataBinding-->
+		<!--Verbindung zwischen einer UI Komponente und einer Backend Variable-->
+		
+		<!--DataContext-->
+		<!--Beschreibt dieser Komponente und Unterkomponenten, welche Daten sie empfangen werden-->
+		<!--DataContext ist nur ein Objekt, mit welchem die UI Komponenten interagieren (über Bindings Werte austauschen) können-->
+		
+		<!--Window sich selbst als DataContext setzen, um auf Backend-Variablen zugreifen zu können-->
+		<!--Zwei Möglichkeiten: -->
+		<!--Backend: this.DataContext = this;-->
+		<!--Frontend: DataContext="{Binding RelativeSource={RelativeSource Self}}"-->
+		
+		<!--Aufgabenstellung: Zähler im Backend erhöhen und im TextBlock anzeigen-->
+		<!--WICHTIG: Backend-Variable muss ein Property sein und public sein-->
+		<TextBlock Text="{Binding Path=Zaehler}"/>
+		<TextBlock Text="{Binding Zaehler}"/>
+		<Button Click="Button_Click" Content="Zähler++"/>
+		<!--Änderungen in der GUI nicht sichtbar -> INotifyPropertyChanged-->
+		
+		<!--INotifyPropertyChanged-->
+		<!--Stellt einen Benachrichtigungsmechanismus bereit, welcher die Werte die in die Properties geschrieben werden an die GUI überträgt-->
+		<!--Wir müssen die Notify Methode implementieren und danach alle Properties zu Full-Properties (private Variable + public Property) konvertieren-->
+		<Slider Minimum="0" Maximum="100" Value="{Binding Zaehler}"/>
+		
+		<!--ObservableCollection-->
+		<!--List, welche INotifyCollectionChanged implementiert-->
+		
+		<!--Aufgabenstellung: Elemente in eine Liste hinzufügen und in der GUI anzeigen-->
+		<ListBox ItemsSource="{Binding Zahlen}"/>
+		<Button Click="Button_Click_1" Content="Zahl hinzufügen"/>
+
+		<TextBlock Text="{Binding Zaehler2.Value}"/>
+		<Button Click="Button_Click_2" Content="Zaehler2++"/>
+	</StackPanel>
+</Window>
