@@ -52,6 +52,7 @@
 				 Validation.ErrorTemplate="{StaticResource ErrorTemp}"/>
 		<Button Content="Test" Click="Button_Click"/>
 
+		<!--ValidateOnDataError-->
 		<TextBox Text="{Binding person.Nachname, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
 				 Validation.ErrorTemplate="{StaticResource ErrorTemp}"/>
 	</StackPanel>

@@ -3,7 +3,7 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Markup;
 
-namespace M009.Validation;
+namespace M000.Validation;
 
 public class ValidationExtension : MarkupExtension
 {
