@@ -1,0 +1,23 @@
+﻿<Window x:Class="M008.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+		xmlns:sys="clr-namespace:System;assembly=System.Runtime"
+        xmlns:local="clr-namespace:M008"
+		DataContext="{Binding RelativeSource={RelativeSource Self}}"
+        Title="MainWindow" Height="450" Width="800"
+		WindowStartupLocation="CenterScreen"
+		Topmost="True">
+    <StackPanel>
+		<!--MarkupExtension-->
+		<!--Komponente, welche mithilfe von { } im XAML Werte an die GUI-Elemente weitergibt-->
+		<!--z.B. Binding, StaticResource, TemplateBinding, ...-->
+		
+		<!--Problemstellung: Enum an ComboBox anbinden-->
+		<!--Lösung 1: Im Backend eine Listenvariable anlegen und diese mit Enumwerten befüllen-->
+		<!--Problem: Backend wird mit sonst nutzlosen Listen verschmutzt-->
+		<ComboBox ItemsSource="{Binding Wochentage}"/>
+		
+		<!--Lösung 2: Eigene MarkupExtension, welche einen Typen empfängt (Typ des Enums) und über diesen Typen das Enum "auspackt"-->
+		<ComboBox ItemsSource="{local:Enum EnumType={x:Type sys:DayOfWeek}}"/>
+	</StackPanel>
+</Window>

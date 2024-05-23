@@ -1,0 +1,58 @@
+﻿<Window x:Class="M009.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:local="clr-namespace:M009"
+		xmlns:valid="clr-namespace:M009.Validation"
+        Title="MainWindow" Height="450" Width="800"
+		DataContext="{Binding RelativeSource={RelativeSource Self}}"
+		WindowStartupLocation="CenterScreen"
+		Topmost="True">
+	<Window.Resources>
+		<valid:LengthValidation x:Key="LengthValid"/>
+
+		<valid:ValidationRuleCollection x:Key="TextValidations">
+			<valid:LengthValidation/>
+			<valid:LetterValidation/>
+		</valid:ValidationRuleCollection>
+
+		<!--ErrorTemplate-->
+		<!--Wird im Fehlerfall angezeigt-->
+		<!--Aufgabenstellung: Element mit einem roten Rahmen umgeben und die Fehlermeldung darunter anzeigen-->
+		<ControlTemplate x:Key="ErrorTemp">
+			<StackPanel>
+				<!--AdornedElementPlaceholder: Gibt uns Zugriff, auf das gerade validierte Element (hier TextBox)-->
+				<Border BorderBrush="Red" BorderThickness="3" CornerRadius="10">
+					<AdornedElementPlaceholder Margin="5" Name="AEP"/>
+				</Border>
+				<Popup Placement="Mouse"
+					   IsOpen="{Binding ElementName=AEP, Path=AdornedElement.IsMouseOver, Mode=OneWay}">
+					<!--Aus dem AEP können wir jetzt die Fehlermeldung entnehmen-->
+					<Border BorderBrush="Black" BorderThickness="3">
+						<TextBlock Text="{Binding ElementName=AEP, Path=AdornedElement.(Validation.Errors)[0].ErrorContent}"
+							   Background="Red" Foreground="White" Padding="5"/>
+					</Border>
+				</Popup>
+			</StackPanel>
+		</ControlTemplate>
+	</Window.Resources>
+    <StackPanel Margin="25">
+		<!--Validation-->
+		<!--Bevor Bindings ausgeführt werden, muss der Input des Users validiert werden-->
+		<!--Drei Optionen: ValidationRules, ValidateOnException, ValidateOnDataError-->
+		
+		<!--User Input validieren, sodass: -->
+		<!--Der Text zwischen 3 und 15 Zeichen hat-->
+		<!--Der Text nur aus Buchstaben besteht-->
+		<TextBox Text="{valid:Validation Binding={Binding Text, UpdateSourceTrigger=PropertyChanged}, RuleCollection={StaticResource TextValidations}}"
+				 Validation.ErrorTemplate="{StaticResource ErrorTemp}"/>
+			
+		<!--ValidateOnException-->
+		<!--Wenn im Backend eine Exception geworfen wird, wird validiert-->
+		<TextBox Text="{Binding person.Vorname, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True}"
+				 Validation.ErrorTemplate="{StaticResource ErrorTemp}"/>
+		<Button Content="Test" Click="Button_Click"/>
+
+		<TextBox Text="{Binding person.Nachname, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+				 Validation.ErrorTemplate="{StaticResource ErrorTemp}"/>
+	</StackPanel>
+</Window>
