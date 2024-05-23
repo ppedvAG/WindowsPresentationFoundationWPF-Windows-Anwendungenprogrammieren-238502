@@ -7,7 +7,7 @@ namespace M007;
 public class NumberToColorConverter : IValueConverter
 {
 	public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
-		=> new SolidColorBrush(((int) value % 10) switch
+		=> new SolidColorBrush((((int) value % 10 + (int) value / 10) % 10) switch
 		{
 			0 => (Color) ColorConverter.ConvertFromString("#CC2F00"),
 			1 => (Color) ColorConverter.ConvertFromString("#DB6600"),
