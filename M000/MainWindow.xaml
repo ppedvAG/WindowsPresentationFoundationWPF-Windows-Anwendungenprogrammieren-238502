@@ -101,16 +101,19 @@
 	<StackPanel Margin="5, 0, 5, 5">
 		<UniformGrid>
 			<TextBlock Text="Vorname: "/>
-			<TextBox Text="{valid:Validation Binding={Binding person.Vorname, UpdateSourceTrigger=PropertyChanged}, RuleCollection={StaticResource TextValidations}}"/>
+			<TextBox Text="{valid:Validation Binding={Binding person.Vorname, UpdateSourceTrigger=PropertyChanged}, RuleCollection={StaticResource TextValidations}}"
+					 Name="Vorname"/>
 		</UniformGrid>
 		<UniformGrid>
 			<TextBlock Text="Nachname: "/>
-			<TextBox Text="{valid:Validation Binding={Binding person.Nachname, UpdateSourceTrigger=PropertyChanged}, RuleCollection={StaticResource TextValidations}}"/>
+			<TextBox Text="{valid:Validation Binding={Binding person.Nachname, UpdateSourceTrigger=PropertyChanged}, RuleCollection={StaticResource TextValidations}}"
+					 Name="Nachname"/>
 		</UniformGrid>
 		<UniformGrid>
 			<TextBlock Text="Geburtsdatum: "/>
 			<DatePicker SelectedDate="{valid:Validation Binding={Binding person.GebDat}, Rule={StaticResource DateValid}}"
-						Validation.ErrorTemplate="{StaticResource ErrorTemp}"/>
+						Validation.ErrorTemplate="{StaticResource ErrorTemp}"
+						Name="GebDat"/>
 		</UniformGrid>
 		<UniformGrid>
 			<TextBlock Text="Verheiratet: "/>
@@ -138,7 +141,8 @@
 			<ComboBox ItemsSource="{local:Colors}"
 					  SelectedValue="{valid:Validation Binding={Binding person.Lieblingsfarbe}, Rule={StaticResource ColorValid}}"
 					  SelectedValuePath="Farbe"
-					  Validation.ErrorTemplate="{StaticResource ErrorTemp}">
+					  Validation.ErrorTemplate="{StaticResource ErrorTemp}"
+					  Name="Farbe">
 				<ComboBox.ItemTemplate>
 					<DataTemplate>
 						<StackPanel Orientation="Horizontal">
@@ -153,7 +157,21 @@
 					</DataTemplate>
 				</ComboBox.ItemTemplate>
 			</ComboBox>
+			<TextBlock/>
+			<CheckBox Content="ColorPicker" Name="Picker"/>
 		</UniformGrid>
+		<local:ColorPickerUC Height="200" SelectedColor="{Binding person.Lieblingsfarbe}">
+			<local:ColorPicker.Style>
+				<Style TargetType="local:ColorPicker">
+					<Setter Property="Visibility" Value="Collapsed"/>
+					<Style.Triggers>
+						<DataTrigger Binding="{Binding ElementName=Picker, Path=IsChecked}" Value="True">
+							<Setter Property="Visibility" Value="Visible"/>
+						</DataTrigger>
+					</Style.Triggers>
+				</Style>
+			</local:ColorPicker.Style>
+		</local:ColorPickerUC>
 		<UniformGrid>
 			<TextBlock Text="Geschlecht:"/>
 			<StackPanel Orientation="Horizontal">
@@ -164,7 +182,24 @@
 		</UniformGrid>
 		<UniformGrid Margin="0">
 			<Button Content="Abbrechen" Margin="0, 5, 2.5, 0"/>
-			<Button Content="OK" Margin="2.5, 5, 0, 0" Click="PersonAnzeigen"/>
+			<Button Content="OK" Margin="2.5, 5, 0, 0" Click="PersonAnzeigen">
+				<Button.Style>
+					<Style TargetType="Button">
+						<Setter Property="IsEnabled" Value="False"/>
+						<Style.Triggers>
+							<MultiDataTrigger>
+								<MultiDataTrigger.Conditions>
+									<Condition Binding="{Binding ElementName=Vorname, Path=(Validation.HasError)}" Value="False"/>
+									<Condition Binding="{Binding ElementName=Nachname, Path=(Validation.HasError)}" Value="False"/>
+									<Condition Binding="{Binding ElementName=GebDat, Path=(Validation.HasError)}" Value="False"/>
+									<Condition Binding="{Binding ElementName=Farbe, Path=(Validation.HasError)}" Value="False"/>
+								</MultiDataTrigger.Conditions>
+								<Setter Property="IsEnabled" Value="True"/>
+							</MultiDataTrigger>
+						</Style.Triggers>
+					</Style>
+				</Button.Style>
+			</Button>
 		</UniformGrid>
 	</StackPanel>
 </Window>

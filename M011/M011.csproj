@@ -8,13 +8,4 @@
     <UseWPF>true</UseWPF>
   </PropertyGroup>
 
-  <ItemGroup>
-    <Compile Update="ColorPickerUC.xaml.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Update="ColorSlider.xaml.cs">
-      <SubType>Code</SubType>
-    </Compile>
-  </ItemGroup>
-
 </Project>

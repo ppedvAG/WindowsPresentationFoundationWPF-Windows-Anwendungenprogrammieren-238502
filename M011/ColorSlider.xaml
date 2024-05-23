@@ -1,0 +1,29 @@
+﻿<UserControl x:Class="M011.ColorSlider"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:M011"
+			 Name="Self">
+	<!--WICHTIG: Innerhalb von UC funktioniert DataContext setzen nicht, weil der DC hier im Endeffekt auf das Window gesetzt wird-->
+	<!--Stattdessen muss Name und ElementPath + Path verwendet werden-->
+	<!--DataContext="{Binding RelativeSource={RelativeSource Self}}"-->
+	<UserControl.Resources>
+		<local:ColorToBrushConverter x:Key="CB"/>
+	</UserControl.Resources>
+	<DockPanel>
+		<TextBlock DockPanel.Dock="Left"
+				   Width="20"
+				   TextAlignment="Center"
+				   Text="{Binding ElementName=Self, Path=TextColor}"
+				   Foreground="{Binding ElementName=Self, Path=SliderColor, Converter={StaticResource CB}}"/>
+		<TextBox DockPanel.Dock="Right"
+				 Width="30"
+				 TextAlignment="Center"
+				 Text="{Binding ElementName=Self, Path=Value, UpdateSourceTrigger=PropertyChanged}"/>
+		<Slider Minimum="0"
+				Maximum="255"
+				Value="{Binding ElementName=Self, Path=Value}"
+				IsSnapToTickEnabled="True"
+				TickFrequency="1"
+				Margin="0, 0, 5, 0"/>
+	</DockPanel>
+</UserControl>

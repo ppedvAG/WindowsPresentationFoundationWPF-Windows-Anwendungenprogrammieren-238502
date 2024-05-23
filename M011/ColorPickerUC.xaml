@@ -1,0 +1,24 @@
+﻿<UserControl x:Class="M011.ColorPickerUC"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:M011"
+			 Name="Self">
+	<UserControl.Resources>
+		<local:ColorToBrushConverter x:Key="CBC"/>
+		<Style TargetType="local:ColorSlider">
+			<Setter Property="Margin" Value="0, 0, 0, 5"/>
+		</Style>
+	</UserControl.Resources>
+	<StackPanel>
+		<!--Farbe, Text und Standardwert müssen setzbar sein-->
+		<local:ColorSlider x:Name="RSlider" SliderColor="Red" TextColor="R:" Value="{Binding ElementName=Self, Path=RSliderValue, Mode=TwoWay}"/>
+		<local:ColorSlider x:Name="GSlider" SliderColor="Green" TextColor="G:" Value="{Binding ElementName=Self, Path=GSliderValue, Mode=TwoWay}"/>
+		<local:ColorSlider x:Name="BSlider" SliderColor="Blue" TextColor="B:" Value="{Binding ElementName=Self, Path=BSliderValue, Mode=TwoWay}"/>
+		<local:ColorSlider x:Name="ASlider" SliderColor="Black" TextColor="A:" Value="{Binding ElementName=Self, Path=ASliderValue, Mode=TwoWay}"/>
+		<TextBlock Margin="0, 5" TextAlignment="Center" Text="{Binding ElementName=Self, Path=SelectedColor, StringFormat='Picked Color: {0}'}"/>
+		<Rectangle Stroke="Black"
+				   StrokeThickness="2"
+				   Width="100" Height="100"
+				   Fill="{Binding ElementName=Self, Path=SelectedColor, Converter={StaticResource CBC}}"/>
+	</StackPanel>
+</UserControl>
