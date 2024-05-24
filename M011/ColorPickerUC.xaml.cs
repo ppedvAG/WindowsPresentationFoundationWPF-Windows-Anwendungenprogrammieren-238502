@@ -103,4 +103,9 @@ public partial class ColorPickerUC : UserControl
 						   (byte) d.GetValue(GSliderValueProperty),
 						   (byte) d.GetValue(BSliderValueProperty)));
 	}
+
+	private void ASlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+	{
+
+    }
 }

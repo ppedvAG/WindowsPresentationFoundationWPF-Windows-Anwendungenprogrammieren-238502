@@ -1,0 +1,73 @@
+﻿<Window x:Class="M012.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:local="clr-namespace:M012"
+		DataContext="{Binding RelativeSource={RelativeSource Self}}"
+        Title="MainWindow" Height="450" Width="300"
+		WindowStartupLocation="CenterScreen"
+		Topmost="True">
+	<StackPanel>
+		<!--RelativeSources-->
+		<!--Bindings, bei denen zur Laufzeit nicht klar ist, welche die zu bindende Komponente ist-->
+		
+		<!--Self-->
+		<!--Binding auf sich selbst-->
+		<Rectangle Width="{Binding ElementName=SideLengthSlider, Path=Value}"
+				   Height="{Binding RelativeSource={RelativeSource Self}, Path=Width}"
+				   Stroke="Black"
+				   StrokeThickness="2"
+				   Fill="Aqua"/>
+		<Slider Minimum="10" Maximum="100" Name="SideLengthSlider"/>
+		
+		<!--TemplatedParent-->
+		<!--Wert aus der Komponente in das Template einsetzen-->
+		<!--Kurzform: TemplateBinding-->
+		<Button Content="Test">
+			<Button.Template>
+				<ControlTemplate TargetType="Button">
+					<Border BorderBrush="Orange" BorderThickness="2">
+						<StackPanel>
+							<TextBlock Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=Content}"/>
+							<TextBlock Text="{TemplateBinding Content}"/>
+						</StackPanel>
+					</Border>
+				</ControlTemplate>
+			</Button.Template>
+		</Button>
+		
+		<!--FindAncestor-->
+		<!--Sucht in der XAML-Hierarchie nach dem gegebenen Typen und greift daraus einen Wert an-->
+		<Grid Background="Aqua">
+			<Grid Background="Orange" Margin="5">
+				<Grid Background="LightGreen" Margin="5">
+					<Button Background="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Grid, AncestorLevel=1}, Path=Background}"
+							Content="Test"
+							Margin="5"/>
+				</Grid>
+			</Grid>
+		</Grid>
+		
+		<!--PreviousData-->
+		<!--Innerhalb von Listenkomponenten auf das vorherige Element zugreifen-->
+		<ListBox ItemsSource="{Binding Zahlen}">
+			<ListBox.ItemTemplate>
+				<DataTemplate>
+					<StackPanel Orientation="Horizontal">
+						<!--<TextBlock Text="{Binding ., StringFormat='\{0}   '}"/>-->
+						<TextBlock>
+							<TextBlock.Text>
+								<MultiBinding>
+									<Binding RelativeSource="{RelativeSource Mode=PreviousData}"/>
+									<Binding RelativeSource="{RelativeSource Mode=PreviousData}"/>
+									<MultiBinding.Converter>
+										<local:FibonacciConverter/>
+									</MultiBinding.Converter>
+								</MultiBinding>
+							</TextBlock.Text>
+						</TextBlock>
+					</StackPanel>
+				</DataTemplate>
+			</ListBox.ItemTemplate>
+		</ListBox>
+	</StackPanel>
+</Window>

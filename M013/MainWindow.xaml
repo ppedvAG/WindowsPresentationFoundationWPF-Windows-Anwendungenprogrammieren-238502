@@ -1,0 +1,58 @@
+﻿<Window x:Class="M013.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:local="clr-namespace:M013"
+        Title="MainWindow" Height="450" Width="800"
+		DataContext="{Binding RelativeSource={RelativeSource Self}}"
+		WindowStartupLocation="CenterScreen"
+		Topmost="True">
+	<Window.Resources>
+		<local:CollectionConcatConverter x:Key="CCC"/>
+		<local:NumberToColorConverter x:Key="NCC"/>
+	</Window.Resources>
+	<!--DataGrid-->
+	<!--Daten in einer 2D-Form (Tabelle) darstellen-->
+	<!--Standardmäßig wird für jedes Property eine Spalte erzeugt-->
+	
+	<!--Probleme: Datumsformate, Job zerlegen in einzelne Spalten, Hobbies mit Komma getrennt darstellen-->
+	<DataGrid ItemsSource="{Binding Personen}"
+			  AutoGenerateColumns="False"
+			  CanUserAddRows="False"
+			  CanUserResizeRows="False"
+			  CanUserDeleteRows="False"
+			  ColumnWidth="*"
+			  AlternatingRowBackground="LightGray"
+			  AlternationCount="5"
+			  GridLinesVisibility="None"
+			  EnableRowVirtualization="True">
+		<!--Virtualization: Datensätze, welche außerhalb vom Bild sind, werden nicht gezeichnet-->
+		
+		<!--Mit DataGrid.Columns können wir jetzt für jedes Property eine Spalte darstellen-->
+		<DataGrid.Columns>
+			<DataGridTextColumn Binding="{Binding ID}" Header="ID"/>
+			<DataGridTextColumn Binding="{Binding Vorname}" Header="Vorname"/>
+			<DataGridTextColumn Binding="{Binding Nachname}" Header="Nachname"/>
+			<DataGridTextColumn Binding="{Binding Geburtsdatum, StringFormat='dddd, dd. MMMM yyyy'}" Header="Geburtsdatum"/>
+			<DataGridTextColumn Binding="{Binding Job.Titel}" Header="Jobtitel"/>
+			<DataGridTextColumn Binding="{Binding Job.Gehalt, StringFormat='\{0}€'}" Header="Gehalt"/>
+			<DataGridTextColumn Binding="{Binding Job.Einstellungsdatum, StringFormat='dd.MM.yyyy'}" Header="Einstellungsdatum"/>
+			<DataGridTextColumn Binding="{Binding Hobbies, Converter={StaticResource CCC}}" Header="Hobbies" Width="Auto">
+				<DataGridTextColumn.CellStyle>
+					<Style TargetType="DataGridCell">
+						<Setter Property="Foreground" Value="{Binding Hobbies.Count, Converter={StaticResource NCC}}"/>
+					</Style>
+				</DataGridTextColumn.CellStyle>
+			</DataGridTextColumn>
+			<!--Aufgabenstellung: Column, welche einen Button für Löschen hinzufügt-->
+			<DataGridTemplateColumn Header="Buttons">
+				<DataGridTemplateColumn.CellTemplate>
+					<DataTemplate>
+						<Button Content="Person löschen"
+								Click="Button_Click"
+								Tag="{Binding .}"/>
+					</DataTemplate>
+				</DataGridTemplateColumn.CellTemplate>
+			</DataGridTemplateColumn>
+		</DataGrid.Columns>
+	</DataGrid>
+</Window>

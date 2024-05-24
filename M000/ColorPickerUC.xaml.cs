@@ -15,14 +15,7 @@ public partial class ColorPickerUC : UserControl
 	public Color SelectedColor
 	{
 		get => (Color) GetValue(SelectedColorProperty);
-		set
-		{
-			//RSliderValue = value.R;
-			//GSliderValue = value.G;
-			//BSliderValue = value.B;
-			//ASliderValue = value.A;
-			SetValue(SelectedColorProperty, value);
-		}
+		set => SetValue(SelectedColorProperty, value);
 	}
 
 	public static readonly DependencyProperty SelectedColorProperty =
@@ -31,8 +24,17 @@ public partial class ColorPickerUC : UserControl
 			nameof(SelectedColor),
 			typeof(Color),
 			typeof(ColorPickerUC),
-			new PropertyMetadata(Colors.Black)
+			new PropertyMetadata(Colors.Black, ColorChanged)
 		);
+
+	public static void ColorChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+	{
+		Color c = (Color) d.GetValue(SelectedColorProperty);
+		d.SetValue(RSliderValueProperty, c.R);
+		d.SetValue(GSliderValueProperty, c.G);
+		d.SetValue(BSliderValueProperty, c.B);
+		d.SetValue(ASliderValueProperty, c.A);
+	}
 
 	//Slider Properties
 	public byte RSliderValue

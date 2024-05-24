@@ -1,9 +1,11 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Markup;
 using System.Windows.Media;
 
 namespace M011;
 
+[ContentProperty("Value")]
 public partial class ColorSlider : UserControl
 {
 	public ColorSlider() => InitializeComponent();
@@ -66,5 +68,20 @@ public partial class ColorSlider : UserControl
 			new PropertyMetadata((byte) 0)
 		);
 
+
+	public event RoutedPropertyChangedEventHandler<double> ValueChanged
+	{
+		add { AddHandler(ValueChangedEvent, value); }
+		remove { RemoveHandler(ValueChangedEvent, value); }
+	}
+
+	public static readonly RoutedEvent ValueChangedEvent =
+		EventManager.RegisterRoutedEvent
+		(
+			nameof(ValueChanged),
+			RoutingStrategy.Direct,
+			typeof(RoutedPropertyChangedEventHandler<double>),
+			typeof(ColorSlider)
+		);
 
 }

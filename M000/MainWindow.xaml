@@ -160,9 +160,9 @@
 			<TextBlock/>
 			<CheckBox Content="ColorPicker" Name="Picker"/>
 		</UniformGrid>
-		<local:ColorPickerUC Height="200" SelectedColor="{Binding person.Lieblingsfarbe}">
-			<local:ColorPicker.Style>
-				<Style TargetType="local:ColorPicker">
+		<local:ColorPickerUC SelectedColor="{Binding Path=person.Lieblingsfarbe, Mode=TwoWay}">
+			<local:ColorPickerUC.Style>
+				<Style TargetType="local:ColorPickerUC">
 					<Setter Property="Visibility" Value="Collapsed"/>
 					<Style.Triggers>
 						<DataTrigger Binding="{Binding ElementName=Picker, Path=IsChecked}" Value="True">
@@ -170,7 +170,7 @@
 						</DataTrigger>
 					</Style.Triggers>
 				</Style>
-			</local:ColorPicker.Style>
+			</local:ColorPickerUC.Style>
 		</local:ColorPickerUC>
 		<UniformGrid>
 			<TextBlock Text="Geschlecht:"/>
@@ -192,7 +192,7 @@
 									<Condition Binding="{Binding ElementName=Vorname, Path=(Validation.HasError)}" Value="False"/>
 									<Condition Binding="{Binding ElementName=Nachname, Path=(Validation.HasError)}" Value="False"/>
 									<Condition Binding="{Binding ElementName=GebDat, Path=(Validation.HasError)}" Value="False"/>
-									<Condition Binding="{Binding ElementName=Farbe, Path=(Validation.HasError)}" Value="False"/>
+									<!--<Condition Binding="{Binding ElementName=Farbe, Path=(Validation.HasError)}" Value="False"/>-->
 								</MultiDataTrigger.Conditions>
 								<Setter Property="IsEnabled" Value="True"/>
 							</MultiDataTrigger>

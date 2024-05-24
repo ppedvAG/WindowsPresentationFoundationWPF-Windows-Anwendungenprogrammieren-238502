@@ -6,7 +6,7 @@
 			 Name="Self">
 	<UserControl.Resources>
 		<conv:ColorToBrushConverter x:Key="CBC"/>
-		<Style TargetType="local:ColorSlider">
+		<Style TargetType="{x:Type local:ColorSlider}">
 			<Setter Property="Margin" Value="0, 0, 0, 5"/>
 		</Style>
 	</UserControl.Resources>

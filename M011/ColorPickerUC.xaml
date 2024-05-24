@@ -15,6 +15,11 @@
 		<local:ColorSlider x:Name="GSlider" SliderColor="Green" TextColor="G:" Value="{Binding ElementName=Self, Path=GSliderValue, Mode=TwoWay}"/>
 		<local:ColorSlider x:Name="BSlider" SliderColor="Blue" TextColor="B:" Value="{Binding ElementName=Self, Path=BSliderValue, Mode=TwoWay}"/>
 		<local:ColorSlider x:Name="ASlider" SliderColor="Black" TextColor="A:" Value="{Binding ElementName=Self, Path=ASliderValue, Mode=TwoWay}"/>
+		<!--ContentProperty: -->
+		<!--<local:ColorSlider x:Name="ASlider" SliderColor="Black" TextColor="A:" Value="{Binding ElementName=Self, Path=ASliderValue, Mode=TwoWay}"
+							   ValueChanged="ASlider_ValueChanged">
+			255
+		</local:ColorSlider>-->
 		<TextBlock Margin="0, 5" TextAlignment="Center" Text="{Binding ElementName=Self, Path=SelectedColor, StringFormat='Picked Color: {0}'}"/>
 		<Rectangle Stroke="Black"
 				   StrokeThickness="2"

@@ -1,9 +1,11 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Markup;
 using System.Windows.Media;
 
 namespace M000;
 
+[ContentProperty("Value")]
 public partial class ColorSlider : UserControl
 {
 	public ColorSlider() => InitializeComponent();
